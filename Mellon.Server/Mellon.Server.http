@@ -1,0 +1,6 @@
+@Mellon.Server_HostAddress = http://localhost:5182
+
+GET {{Mellon.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

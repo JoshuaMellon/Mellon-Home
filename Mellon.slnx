@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="mellon.client/mellon.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="Mellon.Server/Mellon.Server.csproj" />
+</Solution>
