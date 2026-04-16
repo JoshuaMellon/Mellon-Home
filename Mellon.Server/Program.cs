@@ -1,3 +1,4 @@
+using api.Helpers;
 using Mellon.Server.Services;
 using System.Net.Http.Headers;
 
@@ -17,6 +18,7 @@ builder.Services.AddHttpClient<IWeatherClient, WeatherClient>(client =>
     client.DefaultRequestHeaders.Accept.Clear();
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
+builder.Services.AddSingleton<WeatherHelper>();
 
 // Register services to generate OpenAPI/Swagger using Swashbuckle.
 // - AddEndpointsApiExplorer discovers endpoints for controllers.

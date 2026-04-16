@@ -18,10 +18,16 @@ namespace api.Controllers
         // GET api/weather?cityName=London
         // Delegates to the typed client which appends the API key as a query parameter.
         [HttpGet]
-        public async Task<IActionResult> GetWeather(string cityName)
+        public async Task<IActionResult> GetWeatherByCity(string cityName)
         {
             var payload = await _weatherClient.GetWeatherAsync(cityName);
             return Content(payload, "application/json");
         }
+
+        //public async Task<IActionResult> HourlyForecastFourDays(string cityName)
+        //{
+        //    var payload = await _weatherClient.(cityName);
+        //    return Content(payload, "application/json");
+        //}
     }
 }

@@ -1,4 +1,4 @@
-using System.Text;
+using api.Helpers;
 
 namespace Mellon.Server.Services
 {
@@ -13,29 +13,21 @@ namespace Mellon.Server.Services
     public class WeatherClient : IWeatherClient
     {
         private readonly HttpClient _httpClient;
-        private readonly string? _apiKey;
+        private readonly WeatherHelper _weatherHelper;
 
-        public WeatherClient(HttpClient httpClient, IConfiguration configuration)
+        public WeatherClient(HttpClient httpClient, WeatherHelper weatherHelper)
         {
             _httpClient = httpClient;
-            // Support multiple configuration keys commonly used for secrets.
-            _apiKey = configuration["Weather:Key"] ?? configuration["weather-key"] ?? configuration["WeatherKey"];
+            _weatherHelper = weatherHelper;
         }
 
         public async Task<string> GetWeatherAsync(string cityName)
         {
             // Build relative URL and append API key as a query parameter if present.
-            var sb = new StringBuilder();
-            sb.Append("weather?q=");
-            sb.Append(Uri.EscapeDataString(cityName ?? string.Empty));
+            string url = $"weather?q={cityName}";
+            string fullUrl = _weatherHelper.UrlConstruct(url);
 
-            if (!string.IsNullOrEmpty(_apiKey))
-            {
-                sb.Append("&appid=");
-                sb.Append(Uri.EscapeDataString(_apiKey));
-            }
-
-            var response = await _httpClient.GetAsync(sb.ToString());
+            var response = await _httpClient.GetAsync(fullUrl);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
         }
