@@ -1,28 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mellon.Server.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class WeatherController(IHttpClientFactory httpClientFactory) : ControllerBase
+    public class WeatherController : ControllerBase
     {
-        private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
+        // Use the typed IWeatherClient to keep controller logic thin and testable.
+        private readonly IWeatherClient _weatherClient;
 
+        public WeatherController(IWeatherClient weatherClient)
+        {
+            _weatherClient = weatherClient;
+        }
+
+        // GET api/weather?cityName=London
+        // Delegates to the typed client which appends the API key as a query parameter.
         [HttpGet]
         public async Task<IActionResult> GetWeather(string cityName)
         {
-            var client = _httpClientFactory.CreateClient("weather");
-
-            var response = await client.GetAsync($"weather?city={cityName}");
-
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return StatusCode((int)response.StatusCode, "Failed to retrieve weather data");
-            }
-
-            var payload = await response.Content.ReadAsStringAsync();
-
+            var payload = await _weatherClient.GetWeatherAsync(cityName);
             return Content(payload, "application/json");
         }
     }
