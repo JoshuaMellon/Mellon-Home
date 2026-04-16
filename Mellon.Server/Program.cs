@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 // or environment variables) inside the typed client implementation.
 builder.Services.AddHttpClient<IWeatherClient, WeatherClient>(client =>
 {
-    client.BaseAddress = new Uri("https://api.openweathermap.org/data/2.5/");
+    client.BaseAddress = new Uri("https://api.openweathermap.org/");
     client.DefaultRequestHeaders.Accept.Clear();
     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });

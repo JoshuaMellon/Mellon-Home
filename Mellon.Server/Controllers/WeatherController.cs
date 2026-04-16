@@ -15,19 +15,30 @@ namespace api.Controllers
             _weatherClient = weatherClient;
         }
 
-        // GET api/weather?cityName=London
         // Delegates to the typed client which appends the API key as a query parameter.
-        [HttpGet]
+        [HttpGet("current-forecast")]
         public async Task<IActionResult> GetWeatherByCity(string cityName)
         {
             var payload = await _weatherClient.GetWeatherAsync(cityName);
             return Content(payload, "application/json");
         }
 
-        //public async Task<IActionResult> HourlyForecastFourDays(string cityName)
-        //{
-        //    var payload = await _weatherClient.(cityName);
-        //    return Content(payload, "application/json");
-        //}
+        [HttpGet("hourly-forecast-four-days")]
+        public async Task<IActionResult> HourlyForecastFourDays(string cityName)
+        {
+            var (lat, lon) = await _weatherClient.GetGeoDataAsync(cityName);
+
+            var payload = await _weatherClient.GetHourlyForecastAsync(lat, lon);
+
+            return Content(payload, "application/json");
+        }
+
+        [HttpGet("geo-data")]
+        public async Task<IActionResult> GetGeoData(string cityName)
+        {
+            var (lat, lon) = await _weatherClient.GetGeoDataAsync(cityName);
+            // Return coordinates as JSON. Controller keeps responsibility for HTTP shaping.
+            return Ok(new { lat, lon });
+        }
     }
 }
