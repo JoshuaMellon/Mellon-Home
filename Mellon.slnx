@@ -1,7 +1,7 @@
 <Solution>
-  <Project Path="mellon.client/mellon.client.esproj">
+  <Project Path="mellon.client/client.esproj">
     <Build />
     <Deploy />
   </Project>
-  <Project Path="Mellon.Server/Mellon.Server.csproj" />
+  <Project Path="Mellon.Server/api.csproj" />
 </Solution>
