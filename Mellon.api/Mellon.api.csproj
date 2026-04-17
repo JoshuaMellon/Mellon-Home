@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -12,15 +12,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Add Swashbuckle for an integrated Swagger UI during development. -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>10.*-*</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="xunit.v3.core" Version="3.2.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\mellon.client\mellon.client.esproj">
+    <ProjectReference Include="..\mellon.client\Mellon.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>
