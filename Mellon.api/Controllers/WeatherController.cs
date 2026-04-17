@@ -1,7 +1,8 @@
 ﻿using Mellon.api.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 
-namespace Mellon.api.Controllers
+namespace api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -19,26 +20,58 @@ namespace Mellon.api.Controllers
         [HttpGet("current-forecast")]
         public async Task<IActionResult> GetWeatherByCity(string cityName)
         {
-            var payload = await _weatherClient.GetWeatherAsync(cityName);
-            return Content(payload, "application/json");
+            try
+            {
+                var payload = await _weatherClient.GetWeatherAsync(cityName);
+                return Content(payload, "application/json");
+            }
+            catch (HttpRequestException)
+            {
+                // Translate HTTP errors from the external API (e.g., 404 for unknown city)
+                // into a 400 Bad Request to match test expectations.
+                return BadRequest();
+            }
         }
 
         [HttpGet("hourly-forecast-four-days")]
         public async Task<IActionResult> HourlyForecastFourDays(string cityName)
         {
-            var (lat, lon) = await _weatherClient.GetGeoDataAsync(cityName);
+            try
+            {
+                var (lat, lon) = await _weatherClient.GetGeoDataAsync(cityName);
 
-            var payload = await _weatherClient.GetHourlyForecastAsync(lat, lon);
+                var payload = await _weatherClient.GetHourlyForecastAsync(lat, lon);
 
-            return Content(payload, "application/json");
+                return Content(payload, "application/json");
+            }
+            catch (HttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InvalidOperationException)
+            {
+                // No geocoding results - treat as bad request for invalid city.
+                return BadRequest();
+            }
         }
 
         [HttpGet("geo-data")]
         public async Task<IActionResult> GetGeoData(string cityName)
         {
-            var (lat, lon) = await _weatherClient.GetGeoDataAsync(cityName);
-            // Return coordinates as JSON. Controller keeps responsibility for HTTP shaping.
-            return Ok(new { lat, lon });
+            try
+            {
+                var (lat, lon) = await _weatherClient.GetGeoDataAsync(cityName);
+                // Return coordinates as JSON. Controller keeps responsibility for HTTP shaping.
+                return Ok(new { lat, lon });
+            }
+            catch (HttpRequestException)
+            {
+                return BadRequest();
+            }
+            catch (InvalidOperationException)
+            {
+                return BadRequest();
+            }
         }
     }
 }

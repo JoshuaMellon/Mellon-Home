@@ -50,3 +50,4 @@ namespace Mellon.api.tests.Helpers
             Assert.Throws<ArgumentNullException>(() => weatherHelper.UrlConstruct(baseUrl!));
         }
     }
+}
