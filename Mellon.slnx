@@ -1,7 +1,8 @@
 <Solution>
-  <Project Path="mellon.client/client.esproj">
+  <Project Path="Mellon.api.Tests/Mellon.api.Tests.csproj" DisplayName="Mellon.api.tests" Id="8a42d6c8-ae01-4993-beaf-c223f1145d5d" />
+  <Project Path="Mellon.api/Mellon.api.csproj" />
+  <Project Path="mellon.client/Mellon.client.esproj">
     <Build />
     <Deploy />
   </Project>
-  <Project Path="Mellon.Server/api.csproj" />
 </Solution>

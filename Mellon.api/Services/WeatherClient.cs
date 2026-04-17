@@ -1,7 +1,7 @@
-using api.Helpers;
+using Mellon.api.Helpers;
 using System.Text.Json;
 
-namespace Mellon.Server.Services
+namespace Mellon.api.Services
 {
     // Minimal, testable interface for calling the external weather API.
     public interface IWeatherClient

@@ -1,7 +1,7 @@
-﻿using Mellon.Server.Services;
+﻿using Mellon.api.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Controllers
+namespace Mellon.api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

@@ -1,5 +1,5 @@
-using api.Helpers;
-using Mellon.Server.Services;
+using Mellon.api.Helpers;
+using Mellon.api.Services;
 using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
